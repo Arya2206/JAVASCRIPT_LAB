@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Calculator Experiment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 20px;
+            padding: 20px;
+        }
+        pre {
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 20px;
+            color: #000;
+        }
+        .developer-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #ccc;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Billing Calculator</h2>
+    <p>Your receipt has been generated below:</p>
+    
+    <pre id="receiptDisplay"></pre>
+
+    <div class="developer-footer">
+        <strong>Developed By:</strong><br>
+        Name: Arya Khandekar<br>
+        PRN: 24070521219
+    </div>
+
+    <script>
+        var customerName = prompt("Enter customer name:"); 
+        var productName = prompt("Enter product name:");
+        let costPerProduct = parseFloat(prompt("Enter cost per product (₹):").replace(/,/g, ''));
+        let quantity = parseInt(prompt("Enter quantity:").replace(/,/g, ''));
+
+        const GST_RATE = 0.18; 
+
+        let totalBeforeTax = costPerProduct * quantity;
+        let gstAmount = totalBeforeTax * GST_RATE;
+        let finalBill = totalBeforeTax + gstAmount;
+
+        const receiptObject = {
+            custName: customerName,
+            prodName: productName,
+            qty: quantity,
+            baseCost: totalBeforeTax,
+            tax: gstAmount,
+            totalPayable: finalBill
+        };
+
+        const { custName, prodName, qty, baseCost, tax, totalPayable } = receiptObject;
+
+        const billingReceipt = `
+========================================
+             QUICKBILL MART
+========================================
+Developer Name  : ARYA KHANDEKAR
+PRN             : 24070521219
+----------------------------------------
+Customer Name   : ${custName}
+Product Name    : ${prodName}
+Quantity        : ${qty}
+Cost per Unit   : ₹${costPerProduct.toFixed(2)}
+----------------------------------------
+Total (Base)    : ₹${baseCost.toFixed(2)}
+GST (18%)       : ₹${tax.toFixed(2)}
+----------------------------------------
+FINAL BILL      : ₹${totalPayable.toFixed(2)}
+========================================
+`;
+
+        document.getElementById("receiptDisplay").innerText = billingReceipt;
+        console.log(billingReceipt);
+    </script>
+
+</body>
+</html>
