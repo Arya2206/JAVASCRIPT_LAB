@@ -5,45 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaScript String & Regex Lab</title>
     <style>
+        /* ================= THEME VARIABLES ================= */
+        /* Default Light Theme variables */
+        :root, body[data-theme="light"] {
+          --bg-color: #f4f4f9;
+          --text-main: #333333;
+          --text-bold: #111111;
+          --container-bg: #ffffff;
+          --info-bg: #e9ecef;
+          --info-border: #ced4da;
+          --info-text: #495057;
+          --primary: #007BFF;
+          --primary-hover: #0056b3;
+          --input-border: #cccccc;
+          --input-bg: #ffffff;
+          --result-bg: #eef8ff;
+        }
+        
+        /* Dark Theme variables */
+        body[data-theme="dark"] {
+          --bg-color: #0f172a;
+          --text-main: #cbd5e1;
+          --text-bold: #f8fafc;
+          --container-bg: #1e293b;
+          --info-bg: #334155;
+          --info-border: #475569;
+          --info-text: #f1f5f9;
+          --primary: #38bdf8;
+          --primary-hover: #7dd3fc;
+          --input-border: #475569;
+          --input-bg: #1e293b;
+          --result-bg: #0f172a;
+        }
+        
+        /* Pink Theme variables */
+        body[data-theme="pink"] {
+          --bg-color: #fff0f5;
+          --text-main: #5c1d3d;
+          --text-bold: #4a0e2e;
+          --container-bg: #ffffff;
+          --info-bg: #ffe4e1;
+          --info-border: #ffd1dc;
+          --info-text: #8b5a74;
+          --primary: #ff69b4;
+          --primary-hover: #ff1493;
+          --input-border: #ffd1dc;
+          --input-bg: #ffffff;
+          --result-bg: #fff5f7;
+        }
+        
+        /* Green Theme variables */
+        body[data-theme="green"] {
+          --bg-color: #e8f5e9;
+          --text-main: #2e5a32;
+          --text-bold: #1b5e20;
+          --container-bg: #ffffff;
+          --info-bg: #c8e6c9;
+          --info-border: #a5d6a7;
+          --info-text: #1b5e20;
+          --primary: #4caf50;
+          --primary-hover: #388e3c;
+          --input-border: #c8e6c9;
+          --input-bg: #ffffff;
+          --result-bg: #f1f8f3;
+        }
+
         /* Compact layout forced to top-left corner for easy URL + Output screenshot */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 10px;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
         }
         .container {
             width: 460px; 
-            background: white;
+            background: var(--container-bg);
             padding: 15px;
             border-radius: 6px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin: 0; 
+            transition: background 0.3s;
+        }
+        .theme-selector {
+            margin-bottom: 12px;
+        }
+        .theme-selector select {
+            width: 100%;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.3s, border 0.3s, color 0.3s;
         }
         .student-info {
-            background-color: #e9ecef;
+            background-color: var(--info-bg);
             padding: 8px 12px;
             border-radius: 4px;
             margin-bottom: 12px;
-            border: 1px solid #ced4da;
+            border: 1px solid var(--info-border);
+            transition: background 0.3s, border 0.3s;
         }
         .student-info p {
             margin: 2px 0;
             font-size: 14px;
             font-weight: bold;
-            color: #495057;
+            color: var(--info-text);
+            transition: color 0.3s;
         }
         h2 {
             font-size: 16px;
             margin: 5px 0 12px 0;
             text-transform: uppercase;
-            border-bottom: 2px solid #007BFF;
+            border-bottom: 2px solid var(--primary);
             padding-bottom: 5px;
+            color: var(--text-bold);
+            transition: border-color 0.3s, color 0.3s;
         }
         label {
             font-size: 13px;
             font-weight: bold;
+            color: var(--text-bold);
         }
         textarea {
             width: 100%;
@@ -51,31 +137,36 @@
             margin-top: 5px;
             margin-bottom: 10px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-main);
             border-radius: 4px;
             font-size: 13px;
             resize: none;
+            transition: background 0.3s, border 0.3s, color 0.3s;
         }
         button {
             width: 100%;
             padding: 10px;
-            background-color: #007BFF;
+            background-color: var(--primary);
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
             font-size: 14px;
+            transition: background-color 0.2s;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: var(--primary-hover);
         }
         .result-box {
             margin-top: 15px;
-            background: #eef8ff;
+            background: var(--result-bg);
             padding: 12px;
-            border-left: 4px solid #007BFF;
+            border-left: 4px solid var(--primary);
             border-radius: 4px;
+            transition: background 0.3s, border-color 0.3s;
         }
         .result-line {
             font-size: 13px;
@@ -85,13 +176,24 @@
         }
         .label-title {
             font-weight: bold;
-            color: #111;
+            color: var(--text-bold);
+            transition: color 0.3s;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- Theme Selector Dropdown Box -->
+    <div class="theme-selector">
+        <select id="theme-select" onchange="changeTheme(this.value)">
+            <option value="light">Light Theme</option>
+            <option value="dark">Dark Theme</option>
+            <option value="pink">Pink Theme</option>
+            <option value="green">Green Theme</option>
+        </select>
+    </div>
+
     <!-- Student Details Banner -->
     <div class="student-info">
         <p>Name: Arya Khandekar</p>
@@ -117,6 +219,19 @@
 </div>
 
 <script>
+    // Theme Transition Manager Block
+    function changeTheme(themeName) {
+        document.body.setAttribute('data-theme', themeName);
+        localStorage.setItem('selectedThemeRegexLab', themeName);
+    }
+
+    // Initialize state profile engine from cache rules
+    const savedTheme = localStorage.getItem('selectedThemeRegexLab');
+    if (savedTheme) {
+        document.getElementById('theme-select').value = savedTheme;
+        changeTheme(savedTheme);
+    }
+
     function processText() {
         // Read original raw string
         const rawText = document.getElementById('textInput').value;
@@ -154,3 +269,4 @@
 
 </body>
 </html>
+
