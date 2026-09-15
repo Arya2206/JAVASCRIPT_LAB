@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "age": 22,
+    "course": "Mathematics"
+  },
+  {
+    "name": "Bob Smith",
+    "email": "bob@example.com",
+    "age": 24,
+    "course": "Physics"
+  },
+  {
+    "name": "Charlie Lee",
+    "email": "charlie@example.com",
+    "age": 23,
+    "course": "Computer Science"
+  }
+]
